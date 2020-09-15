@@ -530,8 +530,13 @@ INLINE_CODE void motorInputUpdate(void) {
         }
       }
 
-      // trapezium rule
+      // trapezium rule, smooth ToDo
       input.PwmValue = (input.PwmValue + input.PwmValueLast) >> 1;
+      if (input.PwmValue > input.PwmValueLast) {
+        motor.ComplementaryPWM = false;
+      } else {
+        motor.ComplementaryPWM = true;
+      }
       input.PwmValueLast = input.PwmValue;
 
       motorPwmTimerHandle.Instance->CCR1 = input.PwmValue;
